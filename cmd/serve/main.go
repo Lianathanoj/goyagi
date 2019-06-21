@@ -20,7 +20,7 @@ func main() {
 
     log.Info("server started", logger.Data{"port": app.Config.Port})
 
-    err := srv.ListenAndServe()
+    err = srv.ListenAndServe()
     if err != nil && err != http.ErrServerClosed {
         log.Err(err).Fatal("server stopped")
     }
