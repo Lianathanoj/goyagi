@@ -7,6 +7,7 @@ import (
     "net/http"
 
     "github.com/Lianathanoj/goyagi/pkg/application"
+    "github.com/Lianathanoj/goyagi/pkg/binder"
     "github.com/Lianathanoj/goyagi/pkg/health"
     "github.com/Lianathanoj/goyagi/pkg/movies"
     "github.com/Lianathanoj/goyagi/pkg/signals"
@@ -22,6 +23,9 @@ func New(app application.App) *http.Server {
 
     health.RegisterRoutes(e)
     movies.RegisterRoutes(e, app)
+
+    b := binder.New()
+    e.Binder = b
 
     srv := &http.Server{
         Addr:    fmt.Sprintf(":%d", app.Config.Port),
