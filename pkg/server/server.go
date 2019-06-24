@@ -32,6 +32,8 @@ func New(app application.App) *http.Server {
         Handler: e,
     }
 
+    e.Use(logger.Middleware())
+
     // signals.Setup() returns a channel we can wait until it's closed before we
     // shutdown our server
     graceful := signals.Setup()
