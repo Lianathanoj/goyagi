@@ -15,6 +15,23 @@ import (
     "github.com/stretchr/testify/require"
 )
 
+func TestCreateHandler(t *testing.T) {
+    h := newHandler(t)
+
+    t.Run("posts movie on success", func(tt *testing.T) {
+        c, rr := newContext(tt, []byte(`{ "title": "blah", "release_date": "2019-07-05T00:00:00Z" }`))
+
+        err := h.createHandler(c)
+        assert.NoError(tt, err)
+        assert.Equal(tt, http.StatusOK, rr.Code)
+
+        var response model.Movie
+        err = json.Unmarshal(rr.Body.Bytes(), &response)
+        require.NoError(tt, err)
+        assert.True(tt, response.Title == "blah")
+    })
+}
+
 func TestListHandler(t *testing.T) {
     h := newHandler(t)
 
