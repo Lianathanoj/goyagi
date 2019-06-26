@@ -8,8 +8,10 @@ import (
 
     "github.com/Lianathanoj/goyagi/pkg/application"
     "github.com/Lianathanoj/goyagi/pkg/binder"
+    "github.com/Lianathanoj/goyagi/pkg/errors"
     "github.com/Lianathanoj/goyagi/pkg/health"
     "github.com/Lianathanoj/goyagi/pkg/movies"
+    "github.com/Lianathanoj/goyagi/pkg/recovery"
     "github.com/Lianathanoj/goyagi/pkg/signals"
     "github.com/labstack/echo"
     "github.com/lob/logger-go"
@@ -21,9 +23,6 @@ func New(app application.App) *http.Server {
 
     e := echo.New()
 
-    health.RegisterRoutes(e)
-    movies.RegisterRoutes(e, app)
-
     b := binder.New()
     e.Binder = b
 
@@ -33,6 +32,11 @@ func New(app application.App) *http.Server {
     }
 
     e.Use(logger.Middleware())
+    e.Use(recovery.Middleware())
+
+    health.RegisterRoutes(e)
+    movies.RegisterRoutes(e, app)
+    errors.RegisterErrorHandler(e, app)
 
     // signals.Setup() returns a channel we can wait until it's closed before we
     // shutdown our server
