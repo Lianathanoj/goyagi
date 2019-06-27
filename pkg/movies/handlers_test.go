@@ -51,7 +51,7 @@ func TestRetrieveHandler(t *testing.T) {
         assert.Equal(tt, response.Title, "Iron Man")
     })
 
-    t.Run("returns 404 if user isn't found", func(tt *testing.T) {
+    t.Run("returns 404 if movie isn't found", func(tt *testing.T) {
         c, _ := newContext(tt, nil)
         c.SetParamNames("id")
         c.SetParamValues("9999")
