@@ -31,7 +31,8 @@ func New() Config {
         DatabasePort: 5432,
         SentryDSN: os.Getenv("SENTRY_DSN"),
         StatsdHost: "127.0.0.1",
-        StatsdPort: 8125,}
+        StatsdPort: 8125,
+    }
 
     switch os.Getenv(environmentENV) {
     case "development", "":
