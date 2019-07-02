@@ -10,6 +10,7 @@ import (
     "github.com/Lianathanoj/goyagi/pkg/binder"
     "github.com/Lianathanoj/goyagi/pkg/errors"
     "github.com/Lianathanoj/goyagi/pkg/health"
+    "github.com/Lianathanoj/goyagi/pkg/metrics"
     "github.com/Lianathanoj/goyagi/pkg/movies"
     "github.com/Lianathanoj/goyagi/pkg/recovery"
     "github.com/Lianathanoj/goyagi/pkg/signals"
@@ -33,6 +34,7 @@ func New(app application.App) *http.Server {
 
     e.Use(logger.Middleware())
     e.Use(recovery.Middleware())
+    e.Use(metrics.Middleware(app.Metrics))
 
     health.RegisterRoutes(e)
     movies.RegisterRoutes(e, app)
